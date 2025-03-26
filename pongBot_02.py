@@ -1,17 +1,34 @@
 from picamera2 import Picamera2
+from gpiozero import AngularServo
+from collections import deque
 import cv2
 import numpy as np
-from collections import deque
-from gpiozero import AngularServo
 import time
 import imutils
 import math as mt
 
 # Set up the servo
-servo = AngularServo(18, min_angle=0, max_angle=270, min_pulse_width=0.0005, max_pulse_width=0.0025)
+servoG = AngularServo(18, min_angle=0, max_angle=270, min_pulse_width=0.0005, max_pulse_width=0.0025)
+servoF = AngularServo(21, min_angle=0, max_angle=270, min_pulse_width=0.0005, max_pulse_width=0.0025)
 WIDTH, HEIGHT = 480,640
-X = [] # Independent variable
+X = []  # Independent variable
 Y = []  # Dependent variable
+running = True
+y_val=0
+y=0
+st=False;
+prv_y=WIDTH/2
+
+H  =1
+pos=2
+L1 =1
+L2 =1
+
+l1 = 10  # example length
+l2 = 15  # example length
+h = 8    # example height
+n = 6    # example horizontal distance
+
 # Set up PiCamera
 picam = Picamera2()
 picam.preview_configuration.main.size = (HEIGHT, WIDTH)  # Lower resolution for faster processing
@@ -44,6 +61,16 @@ def linearRgression():
 
 # Function to predict new values
 def predict():
+    if len(X)==5 :
+        linearRgression()
+        if st and dir==1:y=predict()
+        print('m',m)
+        print('dr',dir)
+        if y> HEIGHT:y=prv_y
+        elif y<0:y=prv_y
+        else: prv_y=y
+        X=[]
+        Y=[]
     yt=Y[len(Y)-1]
     xt=X[len(X)-1]
     s=mt.degrees(mt.atan(m))
@@ -85,7 +112,7 @@ def getBall_pos():
         cordinates = (round(x_val, 2), round(y_val, 2))
 
         # Map x-coordinate to servo angle (range from 0 to 270 degrees)
-        movePaddle(cordinates)
+        moveArm(cordinates)
 
         # Draw the contour and center on the frame
         if radius > 10:  # Only process large contours
@@ -103,14 +130,24 @@ def getBall_pos():
     # Show the frame with the ball tracking
     cv2.imshow("Frame", frame)
 
-def movePaddle(cordinates):
-    servo.angle = 2 * cordinates[0]
+def moveArm(cordinates):
+    servoG.angle = 2 * cordinates[0]
+    servoF.angle = 2 * cordinates[0]
+    # Compute alpha
+    angelF = mt.acos((h*2 + n + l1 - l2) / (2 * l1)) + mt.acos(n / mt.sqrt(n + h*2))
+    
+    # Compute theta
+    angelG = mt.acos((l1*2 - l2 - h - n) / (2 * l2)) - mt.acos(n / mt.sqrt(n + h*2))
+    
+    # Convert to degrees
+    alpha = mt.degrees(alpha)
+    theta = mt.degrees(theta)
 
 
 while True:
     # Capture frame  
     getBall_pos()
-
+    predict()
     # Exit on 'q' key
     if cv2.waitKey(1) == ord('q'):
         break
