@@ -140,8 +140,8 @@ def moveArm(cordinates):
     angelG = mt.acos((l1*2 - l2 - h - n) / (2 * l2)) - mt.acos(n / mt.sqrt(n + h*2))
     
     # Convert to degrees
-    alpha = mt.degrees(alpha)
-    theta = mt.degrees(theta)
+    alpha = mt.degrees(angelG)
+    theta = mt.degrees(angelF)
 
 
 while True:
