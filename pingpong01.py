@@ -25,8 +25,7 @@ pts = deque(maxlen=10)  # To store previous points (for drawing the path)
 
 time.sleep(2.0)
 
-while True:
-    # Capture frame
+def getBall_pos():
     fr = picam.capture_array()
     frame = np.fliplr(fr)  # Flip the image horizontally if needed
 
@@ -76,6 +75,15 @@ while True:
     # Show the frame with the ball tracking
     cv2.imshow("Frame", frame)
 
+
+while True:
+    # Capture frame  
+    getBall_pos()
+
+
+
+
+    
     # Exit on 'q' key
     if cv2.waitKey(1) == ord('q'):
         break
