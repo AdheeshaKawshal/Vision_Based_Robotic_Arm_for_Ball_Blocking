@@ -79,6 +79,7 @@ running = True
 y_val=0
 y=0
 st=False;
+prv_y=WIDTH/2
 while running:
     
     pygame.time.delay(20)
@@ -131,8 +132,9 @@ while running:
         if st and dir==1:y=predict()
         print('m',m)
         print('dr',dir)
-        if y> HEIGHT:y=HEIGHT-20
-        elif y<0:y=20
+        if y> HEIGHT:y=prv_y
+        elif y<0:y=prv_y
+        else: prv_y=y
         X=[]
         Y=[]
     print(st)
