@@ -130,15 +130,11 @@ def getBall_pos():
     # Show the frame with the ball tracking
     cv2.imshow("Frame", frame)
 
-def moveArm(cordinates):
-    servoG.angle = 2 * cordinates[0]
-    servoF.angle = 2 * cordinates[0]
+def moveArm(x):
     # Compute alpha
-    angelF = mt.acos((h*2 + n + l1 - l2) / (2 * l1)) + mt.acos(n / mt.sqrt(n + h*2))
-    
+    angelF = mt.acos((l1**2 + x**2 - l2**2) / (2 * x* l1))
     # Compute theta
-    angelG = mt.acos((l1*2 - l2 - h - n) / (2 * l2)) - mt.acos(n / mt.sqrt(n + h*2))
-    
+    angelG = mt.acos((l2**2 + x**2 - l1**2) / (2 * x* l2))
     # Convert to degrees
     alpha = mt.degrees(angelG)
     theta = mt.degrees(angelF)
