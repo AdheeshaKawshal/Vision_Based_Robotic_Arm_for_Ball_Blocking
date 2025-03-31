@@ -21,8 +21,8 @@ picam.configure("preview")
 picam.start()
 
 # HSV color range for the ball (adjust as needed)
-greenLower = (5,100,100)
-greenUpper = (15, 255, 255)
+orangeLower = (5,100,100)
+orangeUpper = (15, 255, 255)
 
 pts = deque(maxlen=10)  # To store previous points (for drawing the path)
 
@@ -62,8 +62,8 @@ def getBall_pos():
     blurred = cv2.GaussianBlur(frame, (11, 11), 0)
     hsv = cv2.cvtColor(blurred, cv2.COLOR_BGR2HSV)
 
-    # Create a mask for the green color
-    mask = cv2.inRange(hsv, greenLower, greenUpper)
+    # Create a mask for the orange color
+    mask = cv2.inRange(hsv, orangeLower, orangeUpper)
     mask = cv2.erode(mask, None, iterations=1)  # Reduced erosion
     mask = cv2.dilate(mask, None, iterations=1)  # Reduced dilation
 

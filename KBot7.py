@@ -60,8 +60,8 @@ picam.configure("preview")
 picam.start()
 
 # Ball color range in HSV
-greenLower = (5, 150, 150)
-greenUpper = (25, 255, 255)
+orangeLower = (5, 150, 150)
+orangeUpper = (25, 255, 255)
 
 X, Y = [], []  # To store coordinates for prediction
 
@@ -94,7 +94,7 @@ while True:
     hsv = cv2.cvtColor(blurred, cv2.COLOR_BGR2HSV)
 
     # Create mask for detecting the ball
-    mask = cv2.inRange(hsv, greenLower, greenUpper)
+    mask = cv2.inRange(hsv, orangeLower, orangeUpper)
     mask = cv2.erode(mask, None, iterations=2)
     mask = cv2.dilate(mask, None, iterations=2)
     
