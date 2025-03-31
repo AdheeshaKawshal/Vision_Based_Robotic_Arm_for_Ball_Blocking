@@ -1,10 +1,10 @@
 # Ball Tracking and Path Prediction Robot
 
 ## Project Description
-This project implements a color-based ball tracking and path prediction system using a Raspberry Pi, PiCamera, and robotic arm controlled by servos. The system uses OpenCV for image processing to detect a colored ball (configured for green in HSV color space), track its movement, and predict its future path to control a robotic arm. The robotic arm adjusts its position based on the predicted hit point of the ball, aiming to intercept or follow the ball's trajectory. The project utilizes the `pigpio` library for precise servo control and linear regression for path prediction, making it suitable for educational purposes, robotics demonstrations, or as a base for more complex automation tasks.
+This project implements a color-based ball tracking and path prediction system using a Raspberry Pi, PiCamera, and a robotic arm controlled by servos. The system utilizes OpenCV for image processing to detect a colored ball (configured for green in HSV color space), track its movement, and predict its future trajectory to enable the robotic arm to block the ball at a predefined hit point. The robotic arm adjusts its position dynamically based on the predicted path, aiming to intercept or block the ball as it reaches a specific location (e.g., the bottom edge of the camera frame). The project uses the `pigpio` library for precise servo control and linear regression for trajectory prediction, making it ideal for educational purposes, robotics demonstrations, or as a foundation for more advanced automation tasks.
 
 ## Repository Contents
-- `ball_tracking_robot.py`: Main Python script containing the ball tracking, path prediction, and servo control logic.
+- `ball_tracking_robot.py`: Main Python script containing the ball tracking, trajectory prediction, and servo control logic.
 
 ## Prerequisites
 - Hardware:
@@ -33,10 +33,4 @@ This project implements a color-based ball tracking and path prediction system u
 
 2. Attach the PiCamera module to the Raspberry Pi camera port and ensure it is enabled in the Raspberry Pi configuration.
 
-3. Assemble the robotic arm with segments of lengths approximately 18cm and 20cm (adjustable in the code if different).
-
-### Software Setup
-1. Update and upgrade your Raspberry Pi:
-
-   ```bash
-   sudo apt update && sudo apt upgrade -y
+3. Assemble the robotic arm with segments of lengths approximately 18cm and 20cm (adjustable in the code if different). Position the arm so it can reach the area where the ball is expected to be blocked (e.g., near the bottom of the camera frame).
